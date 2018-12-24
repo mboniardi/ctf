@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+   <definition name = "baseLayout" template="/jsp/baseLayout.jsp">
+      <put-attribute name = "title"  value = "Template"/>
+      <put-attribute name = "header" value = "/include/header.jsp"/>      
+      <put-attribute name = "menu"   value = "/include/menu.jsp"/>
+      <put-attribute name = "body"   value = "/include/body.jsp"/>
+      <put-attribute name = "footer" value = "/include/footer.jsp"/>
+   </definition>
+
+   <definition name = "indexLayout" template="/jsp/indexLayout.jsp">
+      <put-attribute name = "title"  value = "Template"/>
+      <put-attribute name = "body"   value = "/include/body.jsp"/>
+      <put-attribute name = "footer" value = "/include/footer.jsp"/>
+   </definition>
+
+   <definition name = "index" extends = "indexLayout">
+      <put-attribute name = "title"  value = "Index"/>
+      <put-attribute name = "body"   value = "/include/bodyIndex.jsp"/>      
+   </definition>
+   
+   <definition name = "flower" extends = "baseLayout">
+      <put-attribute name = "title"  value = "Flower"/>
+      <put-attribute name = "body"   value = "/include/bodyFlower.jsp"/>      
+   </definition>
+  
+</tiles-definitions>
