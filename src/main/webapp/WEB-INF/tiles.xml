@@ -30,4 +30,8 @@
       <put-attribute name = "body"   value = "/include/bodyFlower.jsp"/>      
    </definition>
   
+     <definition name = "flowerList" extends = "baseLayout">
+      <put-attribute name = "title"  value = "Flower List"/>
+      <put-attribute name = "body"   value = "/include/bodyFlowerList.jsp"/>      
+   </definition>
 </tiles-definitions>

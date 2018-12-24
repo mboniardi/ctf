@@ -6,7 +6,6 @@
 package com.lastminute.ctf.action;
 
 import com.lastminute.ctf.manager.FlowerDescriptionManager;
-import com.lastminute.ctf.manager.MenuManager;
 import com.lastminute.ctf.store.FlowerDescription;
 import com.lastminute.ctf.store.Menu;
 import com.opensymphony.xwork2.ActionSupport;
@@ -31,13 +30,13 @@ public class FlowerDescriptionAction extends ActionSupport {
 
     public String execute() {
         logger.debug("FlowerType: " + flowerType);
-        setMenu(MenuManager.getMenu());
+        setMenu(FlowerDescriptionManager.getMenu());
         if (flowerType != null && flowerType.length() > 0) {
             flowerDescription = FlowerDescriptionManager.getFlowerDescription(flowerType);
         } else {
             flowerDescription = new FlowerDescription();
         }
-        return "flower";
+        return "success";
     }
 
     public FlowerDescription getFlowerDescription() {

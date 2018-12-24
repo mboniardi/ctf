@@ -18,7 +18,10 @@
             <result name="success" type="tiles">index</result>
         </action>
         <action name="flowerDescription" class="com.lastminute.ctf.action.FlowerDescriptionAction" method="execute">
-            <result name="flower" type="tiles">flower</result>
+            <result name="success" type="tiles">flower</result>
+        </action>
+        <action name="flowerList" class="com.lastminute.ctf.action.FlowerListAction" method="execute">
+            <result name="success" type="tiles">flowerList</result>
         </action>
     </package>
 

@@ -2,8 +2,11 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <table>
     <tr>
+        <td colspan="3" >&nbsp;</td>
+    </tr>
+    <tr>
         <td colspan="3" >
-          <h1>Name:<s:property value="FlowerDescription.flower.title" /></h1>
+          <div class="lmn_bodyTitle">Flower Name:<s:property value="FlowerDescription.flower.title" /></div>
         </td>
     </tr>
     <tr>

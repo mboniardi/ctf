@@ -7,6 +7,10 @@ package com.lastminute.ctf.manager;
 
 import com.lastminute.ctf.entity.Flower;
 import com.lastminute.ctf.store.FlowerDescription;
+import com.lastminute.ctf.store.FlowerList;
+import com.lastminute.ctf.store.Menu;
+import com.lastminute.ctf.store.MenuItem;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -50,9 +54,9 @@ public class FlowerDescriptionManager {
     }
 
     private static Flower getFlowerDB(String flowerID) {
-        logger.info("Loading Flower "+flowerID);
+        logger.info("Loading Flower " + flowerID);
         Flower newFlower = null;
-        EntityManager em_ctf=null;
+        EntityManager em_ctf = null;
         try {
             em_ctf = emf_flowerWrite.createEntityManager();
             newFlower = em_ctf.find(Flower.class, flowerID);
@@ -67,9 +71,60 @@ public class FlowerDescriptionManager {
         }
         return newFlower;
     }
+
+    /**
+     *
+     */
+    public static Menu getMenu() {
+        Menu menu = new Menu();
+        List<Flower> flowerList = null;
+        EntityManager em_ctf = null;
+        try {
+            em_ctf = emf_flowerWrite.createEntityManager();
+            Query query = em_ctf.createQuery("Select e from Flower e");
+            flowerList = query.getResultList();
+            for (Iterator<Flower> iterator = flowerList.iterator(); iterator.hasNext();) {
+                Flower next = iterator.next();
+                MenuItem menuItem = new MenuItem();
+                menuItem.setText(next.getTitle());
+                menuItem.setUrl("flowerDescription.action?flowerType=" + next.getId());
+                menu.addMenu(menuItem);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        } finally {
+            if (em_ctf != null) {
+                em_ctf.close();
+            }
+        }
+        return menu;
+    }
+
+        /**
+     *
+     */
+    public static FlowerList getFlowerList() {
+        FlowerList flowerList = new FlowerList();
+        List<Flower> fList = null;
+        EntityManager em_ctf = null;
+        try {
+            em_ctf = emf_flowerWrite.createEntityManager();
+            Query query = em_ctf.createQuery("Select e from Flower e");
+            fList = query.getResultList();
+            for (Iterator<Flower> iterator = fList.iterator(); iterator.hasNext();) {
+                Flower next = iterator.next();
+                flowerList.addFlower(next);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        } finally {
+            if (em_ctf != null) {
+                em_ctf.close();
+            }
+        }
+        return flowerList;
+    }
     
-
     
-
-
+    
 }

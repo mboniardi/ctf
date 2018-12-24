@@ -36,19 +36,12 @@ and open the template in the editor.
     font-size: 25px; 
 }
 
-
-.lmn_menu {
+.lmn_menu, a.lmn_menu:link, a.lmn_menu:visited {
     background-image: url("../img/sse_background.png");
     font-weight: bold;
     color: white;
     font-family: sans-serif;
     font-size: 15px; 
-}
-
-a.lmn_menu:link, a.lmn_menu:visited {
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
 }
 
 a.lmn_menu:hover {
@@ -61,5 +54,21 @@ a.lmn_menu:hover {
 a.lmn_menu:active {
     font-weight: bold;
     color: white;
+    text-decoration: none;
+}
+
+.lmn_body, a.lmn_body:link, a.lmn_body:visited, a.lmn_body:hover, a.lmn_body:active {
+    font-weight: bold;
+    color: #ec008b;
+    font-family: sans-serif;
+    font-size: 20px; 
+    text-decoration: none;
+}
+
+.lmn_bodyTitle {
+    font-weight: bold;
+    color: #ec008b;
+    font-family: sans-serif;
+    font-size: 30px; 
     text-decoration: none;
 }
