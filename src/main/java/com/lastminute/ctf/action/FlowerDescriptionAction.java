@@ -9,14 +9,19 @@ import com.lastminute.ctf.manager.FlowerDescriptionManager;
 import com.lastminute.ctf.store.FlowerDescription;
 import com.lastminute.ctf.store.Menu;
 import com.opensymphony.xwork2.ActionSupport;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 
 /**
  *
  * @author mboniardi
  */
-public class FlowerDescriptionAction extends ActionSupport {
+public class FlowerDescriptionAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
 
     static Logger logger;
 
@@ -27,8 +32,13 @@ public class FlowerDescriptionAction extends ActionSupport {
     private FlowerDescription flowerDescription;
     private Menu menu;
     private String flowerType = "";
+    private static final String COOKIE_CONTENT = "VGhlRmlyc3RLZXlWYWx1ZQ==";
 
     public String execute() {
+        // Save to cookie
+        Cookie div = new Cookie("the1stKey", COOKIE_CONTENT);
+        div.setMaxAge(60 * 60 * 24 * 365); // Make the cookie last a year
+        servletResponse.addCookie(div);
         logger.debug("FlowerType: " + flowerType);
         setMenu(FlowerDescriptionManager.getMenu());
         if (flowerType != null && flowerType.length() > 0) {
@@ -37,6 +47,21 @@ public class FlowerDescriptionAction extends ActionSupport {
             flowerDescription = new FlowerDescription();
         }
         return "success";
+    }
+
+    // For access to the raw servlet request / response, eg for cookies
+    protected HttpServletResponse servletResponse;
+    
+    @Override
+    public void setServletResponse(HttpServletResponse servletResponse) {
+        this.servletResponse = servletResponse;
+    }
+
+    protected HttpServletRequest servletRequest;
+    
+    @Override
+    public void setServletRequest(HttpServletRequest servletRequest) {
+        this.servletRequest = servletRequest;
     }
 
     public FlowerDescription getFlowerDescription() {
