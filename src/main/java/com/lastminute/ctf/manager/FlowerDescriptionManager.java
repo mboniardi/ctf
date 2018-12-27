@@ -10,6 +10,7 @@ import com.lastminute.ctf.store.FlowerDescription;
 import com.lastminute.ctf.store.FlowerList;
 import com.lastminute.ctf.store.Menu;
 import com.lastminute.ctf.store.MenuItem;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -129,4 +130,24 @@ public class FlowerDescriptionManager {
         return flowerList;
     } 
     
+    public static String createSqlInjection(String flowerID){
+        EntityManager em_ctf = null;
+        List<String> sqlResults ;
+        StringBuilder sResult = new StringBuilder();
+        try {
+            em_ctf = emf_ctf.createEntityManager();
+            Query query = em_ctf.createNativeQuery("Select id from FLOWER");
+            sqlResults = query.getResultList();
+            for (String next : sqlResults) {
+                sResult.append("|"+next+"|");
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        } finally {
+            if (em_ctf != null) {
+                em_ctf.close();
+            }
+        }
+        return sResult.toString();
+    }
 }

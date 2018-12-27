@@ -26,6 +26,8 @@
         </td>
     </tr>
 </table>
+<!-- this is the list of flowers -->
+<!-- <s:property value="sqlResult" /> -->
     
     
      
