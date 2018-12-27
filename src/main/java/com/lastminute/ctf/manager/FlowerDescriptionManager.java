@@ -10,7 +10,6 @@ import com.lastminute.ctf.store.FlowerDescription;
 import com.lastminute.ctf.store.FlowerList;
 import com.lastminute.ctf.store.Menu;
 import com.lastminute.ctf.store.MenuItem;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,13 +25,13 @@ import org.apache.logging.log4j.Logger;
 public class FlowerDescriptionManager {
 
     static Logger logger;
-    static EntityManagerFactory emf_flowerWrite;
+    static EntityManagerFactory emf_ctf;
 
     static {
         logger = LogManager.getLogger(com.lastminute.ctf.manager.FlowerDescriptionManager.class);
         try {
             logger.debug("Init Starting Flowers Persistance!!!");
-            emf_flowerWrite = Persistence.createEntityManagerFactory("flowers");
+            emf_ctf = Persistence.createEntityManagerFactory("flowers");
             logger.debug("Init complete Flowers Persistance!!!");
         } catch (Exception e) {
             logger.error("Error: Flowers Persistance initialization Problem!!!");
@@ -40,28 +39,33 @@ public class FlowerDescriptionManager {
         }
     }
 
-    private static String getDescriptionPath(String flowerID) {
-        return "/descriptions/" + flowerID + ".txt";
-    }
-
+/**
+ * 
+ * @param flowerID id to be used to collect information (from DB and from S3)
+ * @return a FLowerDescription Object with data from DB and data from S£
+ */
     public static FlowerDescription getFlowerDescription(String flowerID) {
         // get text from S3
-        String result = S3Manager.getS3Text(getDescriptionPath(flowerID));
+        String result = S3Manager.getS3Text(S3Manager.getDescriptionPath(flowerID));
         // get data from DB
         FlowerDescription fDesc = new FlowerDescription(result);
         fDesc.setFlower(getFlowerDB(flowerID));
         return fDesc;
     }
 
+ /**
+  * 
+  * @param flowerID identifier of the Flower
+  * @return Flower object taken from DB
+  */
     private static Flower getFlowerDB(String flowerID) {
         logger.info("Loading Flower " + flowerID);
         Flower newFlower = null;
         EntityManager em_ctf = null;
         try {
-            em_ctf = emf_flowerWrite.createEntityManager();
+            em_ctf = emf_ctf.createEntityManager();
             newFlower = em_ctf.find(Flower.class, flowerID);
             logger.info("Loaded flower:" + newFlower.getTitle());
-            System.out.println("Loaded flower:" + newFlower.getTitle());
         } catch (Exception e) {
             logger.error(e);
         } finally {
@@ -73,18 +77,18 @@ public class FlowerDescriptionManager {
     }
 
     /**
-     *
+     * Creating a Menu Object with all the manuItems (flower names and links)
+     * @return Menu objects to be used in the menu jsp tile component
      */
     public static Menu getMenu() {
         Menu menu = new Menu();
         List<Flower> flowerList = null;
         EntityManager em_ctf = null;
         try {
-            em_ctf = emf_flowerWrite.createEntityManager();
+            em_ctf = emf_ctf.createEntityManager();
             Query query = em_ctf.createQuery("Select e from Flower e");
             flowerList = query.getResultList();
-            for (Iterator<Flower> iterator = flowerList.iterator(); iterator.hasNext();) {
-                Flower next = iterator.next();
+            for (Flower next : flowerList) {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setText(next.getTitle());
                 menuItem.setUrl("flowerDescription.action?flowerType=" + next.getId());
@@ -100,19 +104,19 @@ public class FlowerDescriptionManager {
         return menu;
     }
 
-        /**
-     *
+    /**
+     * Get an FlowerList containing all Flowers available in DB
+     * @return 
      */
     public static FlowerList getFlowerList() {
         FlowerList flowerList = new FlowerList();
         List<Flower> fList = null;
         EntityManager em_ctf = null;
         try {
-            em_ctf = emf_flowerWrite.createEntityManager();
+            em_ctf = emf_ctf.createEntityManager();
             Query query = em_ctf.createQuery("Select e from Flower e");
             fList = query.getResultList();
-            for (Iterator<Flower> iterator = fList.iterator(); iterator.hasNext();) {
-                Flower next = iterator.next();
+            for (Flower next : fList) {
                 flowerList.addFlower(next);
             }
         } catch (Exception e) {
@@ -123,8 +127,6 @@ public class FlowerDescriptionManager {
             }
         }
         return flowerList;
-    }
-    
-    
+    } 
     
 }

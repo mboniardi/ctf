@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -25,7 +26,9 @@ import org.apache.logging.log4j.LogManager;
  */
 public class S3Manager {
 
-    static org.apache.logging.log4j.Logger logger;
+    static private final String s3Path = "/descriptions/";
+    static private final String s3FileExtention = ".txt";
+    static private Logger logger;
 
     static {
         logger = LogManager.getLogger(com.lastminute.ctf.manager.S3Manager.class);
@@ -71,5 +74,14 @@ public class S3Manager {
         }
 
         return textBuilder.toString();
+    }
+
+    /**
+     * 
+     * @param flowerID
+     * @return the PATH in S3 where the description of the flowerID is located 
+     */
+    static String getDescriptionPath(String flowerID) {
+        return s3Path + flowerID + s3Path;
     }
 }
