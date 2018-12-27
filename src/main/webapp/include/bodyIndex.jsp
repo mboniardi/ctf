@@ -1,1 +1,1 @@
-<a href="flowerList.action"><img src="img/ctf_desktop.png" widt ='1024px' height="740px"></a>
+<a href="flowerList.action"><img src="img/ctf_desktop.png" widt ='1024px' height="700px"></a>
