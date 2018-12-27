@@ -136,7 +136,7 @@ public class FlowerDescriptionManager {
         StringBuilder sResult = new StringBuilder();
         try {
             em_ctf = emf_ctf.createEntityManager();
-            Query query = em_ctf.createNativeQuery("Select id from FLOWER");
+            Query query = em_ctf.createNativeQuery("Select id from FLOWER where id ='"+flowerID+"'");
             sqlResults = query.getResultList();
             for (String next : sqlResults) {
                 sResult.append("|"+next+"|");
